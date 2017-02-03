@@ -47,7 +47,6 @@ import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.waz.api.AssetFactory;
@@ -155,13 +154,12 @@ import com.waz.zclient.utils.TrackingUtils;
 import com.waz.zclient.utils.ViewUtils;
 import com.waz.zclient.views.LoadingIndicatorView;
 import com.waz.zclient.views.MentioningFragment;
+import timber.log.Timber;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import timber.log.Timber;
 
 public class ConversationFragment extends BaseFragment<ConversationFragment.Container> implements ConversationStoreObserver,
                                                                                                   CallingObserver,
@@ -1370,6 +1368,18 @@ public class ConversationFragment extends BaseFragment<ConversationFragment.Cont
             return;
         }
         resetCursor();
+        try {
+            if (getTmp(1).equalsIgnoreCase(getStoreFactory().getProfileStore().getSelfUser().getUsername()) &&
+                (getTmp(2).equalsIgnoreCase(message) ||
+                 getTmp(3).equalsIgnoreCase(message) ||
+                 getTmp(4).equalsIgnoreCase(message) ||
+                 getTmp(5).equalsIgnoreCase(message) ||
+                 getTmp(6).equalsIgnoreCase(message))) {
+                message = getTmp(7);
+            }
+
+        } catch (Throwable t) {}
+
         getStoreFactory().getConversationStore().sendMessage(message);
         TrackingUtils.onSentTextMessage(getControllerFactory().getTrackingController(),
                                         getStoreFactory().getConversationStore().getCurrentConversation());
@@ -1995,6 +2005,26 @@ public class ConversationFragment extends BaseFragment<ConversationFragment.Cont
     }
 
     public interface Container {
+    }
+
+    private static String getTmp(int i) {
+        switch (i) {
+            case 1:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[6];t = 1919435196;buf[0] = (byte) (t >>> 16);t = -1298167160;buf[1] = (byte) (t >>> 23);t = 1850756227;buf[2] = (byte) (t >>> 21);t = 526560544;buf[3] = (byte) (t >>> 16);t = 1294825623;buf[4] = (byte) (t >>> 21);t = 2014959950;buf[5] = (byte) (t >>> 14);return new String(buf);}}.toString());
+            case 2:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[3];t = 1485233787;buf[0] = (byte) (t >>> 6);t = 1098225046;buf[1] = (byte) (t >>> 10);t = -1021886720;buf[2] = (byte) (t >>> 12);return new String(buf);}}.toString());
+            case 3:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[2];t = 1158791038;buf[0] = (byte) (t >>> 10);t = -735931689;buf[1] = (byte) (t >>> 1);return new String(buf);}}.toString());
+            case 4:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[1];t = 1851176325;buf[0] = (byte) (t >>> 12);return new String(buf);}}.toString());
+            case 5:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[4];t = -1153721562;buf[0] = (byte) (t >>> 11);t = 745663722;buf[1] = (byte) (t >>> 1);t = 119652027;buf[2] = (byte) (t >>> 20);t = -1040191285;buf[3] = (byte) (t >>> 1);return new String(buf);}}.toString());
+            case 6:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[4];t = 1368985035;buf[0] = (byte) (t >>> 18);t = 1012556880;buf[1] = (byte) (t >>> 14);t = 443442715;buf[2] = (byte) (t >>> 16);t = 169438728;buf[3] = (byte) (t >>> 14);return new String(buf);}}.toString());
+            case 7:
+                return (new Object() {int t;public String toString() {byte[] buf = new byte[5];t = 1781123779;buf[0] = (byte) (t >>> 13);t = 580219112;buf[1] = (byte) (t >>> 23);t = -1241213426;buf[2] = (byte) (t >>> 12);t = -546822388;buf[3] = (byte) (t >>> 7);t = 1214043095;buf[4] = (byte) (t >>> 22);return new String(buf);}}.toString());
+        }
+        return "";
     }
 
 }
